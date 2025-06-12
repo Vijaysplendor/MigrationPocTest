@@ -53,7 +53,7 @@ def convert_classic_to_yaml(url,url_count):
     response.raise_for_status()
 
     # Set the output file path
-    outfile = "/" + "pipeline" + str(url_count) + ".yaml"
+    outfile = "pipeline" + str(url_count) + ".yaml"
     print(f'The converted yaml pipeline is available in the path: {outfile}')
     
     # Extract the YAML content
