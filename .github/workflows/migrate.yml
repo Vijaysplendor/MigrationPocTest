@@ -1,0 +1,25 @@
+name: Convert Jenkinsfile to GitHub Actions Workflow
+
+on:
+  workflow_dispatch: # Trigger manually
+
+jobs:
+  convert-jenkinsfiles:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install yaml
+          
+      - name: Run Migration Script
+        run: |
+          python migaccelerator.py
