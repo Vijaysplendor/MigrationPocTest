@@ -6,6 +6,8 @@ on:
 jobs:
   convert-classic-yaml:
     runs-on: ubuntu-latest
+    env:
+      MY_SECRET_KEY: ${{ secrets.ADO_PAT }}
 
     steps:
       - name: Checkout current repository
