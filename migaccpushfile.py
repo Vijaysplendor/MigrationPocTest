@@ -1,13 +1,10 @@
 import base64
-import os
 import requests
 from requests.auth import HTTPBasicAuth
 import json
 
 # Azure DevOps organization URL and PAT
-pat = os.getenv('MY_SECRET_KEY')
-    if not pat:
-        raise ValueError("Azure DevOps PAT token not found in environment variable 'ADO_PAT_TOKEN'. Please set it and try again.")
+pat = '3T8vDg6IJSfYKcGNxO8mBzhEMGSBfrjqFqa4kQNkEuj4YNsY4BDDJQQJ99BEACAAAAAcA37ZAAASAZDO3JYL'
 repository = "PartsUnlimited"
 authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
 headers = {
