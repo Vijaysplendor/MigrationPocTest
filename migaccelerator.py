@@ -1,8 +1,8 @@
 import base64
 import requests
 import yaml
-
-
+import os
+     
 # Download the yaml file using REST API
 
 def initial_conversion():
@@ -36,10 +36,10 @@ def initial_conversion():
             with open(output_file, 'a') as out_f:
                 out_f.write(f"{new_url}\n")
 
-def convert_classic_to_yaml(url,url_count):
+def convert_classic_to_yaml(url,url_count,secret_key):
     #validate each url
     #base_url = url
-    pat = '3T8vDg6IJSfYKcGNxO8mBzhEMGSBfrjqFqa4kQNkEuj4YNsY4BDDJQQJ99BEACAAAAAcA37ZAAASAZDO3JYL'
+    pat = 'secret_key'
     authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
 
     headers = {
@@ -68,6 +68,9 @@ def convert_classic_to_yaml(url,url_count):
 
 # Main execution
 if __name__ == '__main__':
+    secret_key = os.getenv("MY_SECRET_KEY")
+    if not secret_key:
+        raise RuntimeError("Secret Key not found!")
     initial_conversion ()
     with open("converted_urls.txt", "r") as f:
        un_parsed_urls = f.readlines()
@@ -75,7 +78,7 @@ if __name__ == '__main__':
     url_count = 0
     for url in parsed_urls:
         url_count += 1
-        convert_classic_to_yaml (url, url_count)
+        convert_classic_to_yaml (url, url_count, secret_key)
         print(f'Total number of urls converted to yaml format is: {url_count}')
         print(f'------------------------------------------------------------------------------------------------')
 
