@@ -1,6 +1,5 @@
 import base64
 import yaml
-import os
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -41,19 +40,17 @@ def initial_conversion():
 def convert_classic_to_yaml(url,url_count):
     #validate each url
     #base_url = url
-    pat = os.getenv("MY_SECRET_KEY")
-    if not pat:
-         raise ValueError("MY_SECRET_KEY not found in environment variables.")
-         
-    #authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
+    pat = '3T8vDg6IJSfYKcGNxO8mBzhEMGSBfrjqFqa4kQNkEuj4YNsY4BDDJQQJ99BEACAAAAAcA37ZAAASAZDO3JYL'
+            
+    authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
 
-    #headers = {
-    #     'Accept': 'application/json',
-    #     'Authorization': 'Basic '+authorization
-    #}
+    headers = {
+         'Accept': 'application/json',
+         'Authorization': 'Basic '+authorization
+    }
     print(f'Pipeline url to be converted to yaml format is {url}')
     print(f'pipeline : {url_count}')
-    response = requests.get(url, auth=HTTPBasicAuth('', pat))
+    response = requests.get(url, headers=headers)
     print(f'Authentication is success and response is {response}')
     response.raise_for_status()
 
