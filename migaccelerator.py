@@ -4,7 +4,6 @@ import yaml
 import requests
 from requests.auth import HTTPBasicAuth
 
-     
 # Download the yaml file using REST API
 
 def initial_conversion():
@@ -38,18 +37,16 @@ def initial_conversion():
             with open(output_file, 'a') as out_f:
                 out_f.write(f"{new_url}\n")
 
-def convert_classic_to_yaml(url,url_count):
-    #validate each url
-    #base_url = url
+def convert_classic_to_yaml(url, url_count):
+    # validate each url
     pat = os.getenv('MY_SECRET_KEY')
     if not pat:
-        raise ValueError("Azure DevOps PAT token not found in environment variable 'ADO_PAT_TOKEN'. Please set it and try again.") 
-            
+        raise ValueError("Azure DevOps PAT token not found in environment variable 'MY_SECRET_KEY'. Please set it and try again.") 
     authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
 
     headers = {
-         'Accept': 'application/json',
-         'Authorization': 'Basic '+authorization
+        'Accept': 'application/json',
+        'Authorization': 'Basic ' + authorization
     }
     print(f'Pipeline url to be converted to yaml format is {url}')
     print(f'pipeline : {url_count}')
@@ -57,36 +54,37 @@ def convert_classic_to_yaml(url,url_count):
     print(f'Authentication is success and response is {response}')
     response.raise_for_status()
 
+    # Try to parse JSON, otherwise print the content for debugging
+    try:
+        data = response.json()
+    except ValueError:
+        print("Response is not valid JSON. Response content was:")
+        print(response.text)
+        raise
+
+    if "yaml" not in data:
+        print("Key 'yaml' not found in response JSON. Full response:")
+        print(data)
+        raise KeyError("The 'yaml' key was not found in the response.")
+
+    yaml_content = data["yaml"]
+    yaml_content = yaml_content.replace("...", "")
+
     # Set the output file path
     outfile = "pipeline" + str(url_count) + ".yaml"
     print(f'The converted yaml pipeline is available in the path: {outfile}')
-    
-    # Extract the YAML content
-    yaml_content = response.json()["yaml"]
-
-    # Remove "..." from the YAML content
-    yaml_content = yaml_content.replace("...", "")
-
-    # Write the YAML content to the output file
     with open(outfile, "w") as f:
         f.write(yaml_content)
 
 # Main execution
 if __name__ == '__main__':
-    initial_conversion ()
+    initial_conversion()
     with open("converted_urls.txt", "r") as f:
-       un_parsed_urls = f.readlines()
+        un_parsed_urls = f.readlines()
     parsed_urls = [url.replace("\n", "") for url in un_parsed_urls]
     url_count = 0
     for url in parsed_urls:
         url_count += 1
-        convert_classic_to_yaml (url, url_count)
+        convert_classic_to_yaml(url, url_count)
         print(f'Total number of urls converted to yaml format is: {url_count}')
         print(f'------------------------------------------------------------------------------------------------')
-
-
-
-
-
-
-
