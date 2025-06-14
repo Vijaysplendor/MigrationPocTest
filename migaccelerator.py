@@ -53,7 +53,7 @@ def convert_classic_to_yaml(url,url_count):
     #}
     print(f'Pipeline url to be converted to yaml format is {url}')
     print(f'pipeline : {url_count}')
-    response = requests.get(url, auth=HTTPBasicAuth("", pat))
+    response = requests.get(url, auth=HTTPBasicAuth('', pat))
     print(f'Authentication is success and response is {response}')
     response.raise_for_status()
 
