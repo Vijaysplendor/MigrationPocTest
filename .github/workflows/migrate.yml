@@ -23,3 +23,6 @@ jobs:
       - name: Run Migration Script
         run: |
           python migaccelerator.py
+          pwd
+          ls -lrt
+          cat converted_urls.txt
