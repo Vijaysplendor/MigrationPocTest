@@ -4,7 +4,7 @@ on:
   workflow_dispatch: # Trigger manually
 
 jobs:
-  convert-jenkinsfiles:
+  convert-classic-yaml:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +22,8 @@ jobs:
           
       - name: Run Migration Script
         run: |
+          echo "Converting classic to yml pipeline"
           python migaccelerator.py
-          pwd
-          ls -lrt
-          cat converted_urls.txt
-          git status
+          echo "Pushing the file to ADO Repo"
+          python migaccpushfile.py
+          
