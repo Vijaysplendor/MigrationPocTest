@@ -2,9 +2,11 @@ import base64
 import requests
 from requests.auth import HTTPBasicAuth
 import json
+import os
 
 # Azure DevOps organization URL and PAT
-pat = '3T8vDg6IJSfYKcGNxO8mBzhEMGSBfrjqFqa4kQNkEuj4YNsY4BDDJQQJ99BEACAAAAAcA37ZAAASAZDO3JYL'
+secret_key = os.getenv("MY_SECRET_KEY")
+pat = 'secret_key'
 repository = "PartsUnlimited"
 authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
 headers = {
