@@ -5,8 +5,7 @@ import json
 import os
 
 # Azure DevOps organization URL and PAT
-secret_key = os.getenv("MY_SECRET_KEY")
-pat = 'secret_key'
+pat = os.getenv("MY_SECRET_KEY")
 repository = "PartsUnlimited"
 authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
 headers = {
