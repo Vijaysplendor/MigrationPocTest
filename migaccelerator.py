@@ -36,10 +36,10 @@ def initial_conversion():
             with open(output_file, 'a') as out_f:
                 out_f.write(f"{new_url}\n")
 
-def convert_classic_to_yaml(url,url_count,secret_key):
+def convert_classic_to_yaml(url,url_count):
     #validate each url
     #base_url = url
-    pat = 'secret_key'
+    pat = os.getenv("MY_SECRET_KEY")
     authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
 
     headers = {
@@ -68,9 +68,6 @@ def convert_classic_to_yaml(url,url_count,secret_key):
 
 # Main execution
 if __name__ == '__main__':
-    secret_key = os.getenv("MY_SECRET_KEY")
-    if not secret_key:
-        raise RuntimeError("Secret Key not found!")
     initial_conversion ()
     with open("converted_urls.txt", "r") as f:
        un_parsed_urls = f.readlines()
@@ -78,7 +75,7 @@ if __name__ == '__main__':
     url_count = 0
     for url in parsed_urls:
         url_count += 1
-        convert_classic_to_yaml (url, url_count, secret_key)
+        convert_classic_to_yaml (url, url_count)
         print(f'Total number of urls converted to yaml format is: {url_count}')
         print(f'------------------------------------------------------------------------------------------------')
 
