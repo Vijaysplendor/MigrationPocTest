@@ -19,7 +19,7 @@ repo_id_url = f"{initial_base_url}?api-version=6.0"
 
 # code to get the repository_id
 def get_repo_id():
-    response = requests.get(repo_id_url, auth=HTTPBasicAuth("", pat))
+    response = requests.get(repo_id_url, auth=HTTPBasicAuth('', pat))
     if response.status_code == 200:
         #Parse the JSON response
         repo_data = response.json()
