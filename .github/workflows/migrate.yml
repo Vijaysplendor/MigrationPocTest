@@ -26,3 +26,4 @@ jobs:
           pwd
           ls -lrt
           cat converted_urls.txt
+          git status
