@@ -1,17 +1,16 @@
 import base64
-import os
 import requests
 from requests.auth import HTTPBasicAuth
 import json
 
 # Azure DevOps organization URL and PAT
-pat = os.getenv("MY_SECRET_KEY")
+pat = '3T8vDg6IJSfYKcGNxO8mBzhEMGSBfrjqFqa4kQNkEuj4YNsY4BDDJQQJ99BEACAAAAAcA37ZAAASAZDO3JYL'
 repository = "PartsUnlimited"
-#authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
-#headers = {
-#         'Accept': 'application/json',
-#         'Authorization': 'Basic '+authorization
-#    }
+authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
+headers = {
+         'Accept': 'application/json',
+         'Authorization': 'Basic '+authorization
+    }
 
 #Rest API End Points
 initial_base_url = f"https://dev.azure.com/VI20040428/PartsUnlimitedTest/_apis/git/repositories/{repository}"
@@ -19,7 +18,7 @@ repo_id_url = f"{initial_base_url}?api-version=6.0"
 
 # code to get the repository_id
 def get_repo_id():
-    response = requests.get(repo_id_url, auth=HTTPBasicAuth('', pat))
+    response = requests.get(repo_id_url, headers=headers)
     if response.status_code == 200:
         #Parse the JSON response
         repo_data = response.json()
