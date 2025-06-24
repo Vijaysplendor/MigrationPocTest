@@ -1,3 +1,4 @@
+import os
 import base64
 import yaml
 import requests
@@ -40,14 +41,16 @@ def initial_conversion():
 def convert_classic_to_yaml(url,url_count):
     #validate each url
     #base_url = url
-    pat = '3T8vDg6IJSfYKcGNxO8mBzhEMGSBfrjqFqa4kQNkEuj4YNsY4BDDJQQJ99BEACAAAAAcA37ZAAASAZDO3JYL'
-               
-    authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
-
+    # Get PAT from environment variable
+    pat = os.environ.get('ADO_PAT')
+    if not pat:
+        raise ValueError("ADO_PAT environment variable not set. Please set it in your environment before running the script.")
+    authorization = str(base64.b64encode(bytes(':' + pat, 'ascii')), 'ascii')
     headers = {
-         'Accept': 'application/json',
-         'Authorization': 'Basic '+authorization
+        'Accept': 'application/json',
+        'Authorization': 'Basic ' + authorization
     }
+     
     print(f'Pipeline url to be converted to yaml format is {url}')
     print(f'pipeline : {url_count}')
     response = requests.get(url, headers=headers)
