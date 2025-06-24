@@ -1,11 +1,15 @@
+import os
 import base64
 import requests
 from requests.auth import HTTPBasicAuth
 import json
 
 # Azure DevOps organization URL and PAT
-pat = '3T8vDg6IJSfYKcGNxO8mBzhEMGSBfrjqFqa4kQNkEuj4YNsY4BDDJQQJ99BEACAAAAAcA37ZAAASAZDO3JYL'
 repository = "PartsUnlimited"
+# Get PAT from environment variable
+pat = os.environ.get('ADO_PAT')
+if not pat:
+    raise ValueError("ADO_PAT environment variable not set. Please set it in your environment before running the script.")
 authorization = str(base64.b64encode(bytes(':'+pat, 'ascii')), 'ascii')
 headers = {
          'Accept': 'application/json',
